@@ -21,6 +21,7 @@ services:
       - BACKREST_CONFIG=/config/config.json
       - XDG_CACHE_HOME=/cache
       - TMPDIR=/tmp
+      - NOTIFY_URL=${NOTIFY_URL}
     volumes:
       - /root/runtipi/apps/backrest/bin/bin:/scripts:ro
       - ${APP_DATA_DIR}/data/data:/data
