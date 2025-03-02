@@ -43,6 +43,7 @@ else
     docker stop $stopContainers
     if [ $? -eq 0 ]; then
         echo "Docker-Container erfolgreich gestoppt."
+        sleep 30
     else
         echo "Fehler: Docker-Container konnten nicht gestoppt werden."
         /scripts/report-status.sh down
