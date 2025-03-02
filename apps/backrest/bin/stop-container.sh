@@ -30,7 +30,7 @@ for container in $allContainers; do
     image=$(docker inspect --format '{{.Config.Image}}' "$container")
 
     # Wenn das Image NICHT "garethgeorge/backrest" ist, Container zur Stoppliste hinzufügen
-    if [ "$image" != "garethgeorge/backrest" ]; then
+    if [[ "$image" != garethgeorge/backrest* ]]; then
         stopContainers="$stopContainers $container"
     fi
 done
