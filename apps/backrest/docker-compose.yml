@@ -23,7 +23,7 @@ services:
       - TMPDIR=/tmp
       - NOTIFY_URL=${NOTIFY_URL}
     volumes:
-      - /root/runtipi/apps/backrest/bin/bin:/scripts:ro
+      - /root/runtipi/apps/backrest/bin:/scripts:ro
       - ${APP_DATA_DIR}/data/data:/data
       - ${APP_DATA_DIR}/data/config:/config
       - ${APP_DATA_DIR}/data/cache:/cache
