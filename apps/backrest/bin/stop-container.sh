@@ -18,8 +18,6 @@ if [[ "${NOTIFY_URL}" == *ping* ]]; then
     fi
 fi
 
-#!/bin/bash
-
 # Alle Container abrufen
 allContainers=$(docker ps -q)
 
