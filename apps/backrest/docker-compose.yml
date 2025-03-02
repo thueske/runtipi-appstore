@@ -1,0 +1,41 @@
+services:
+  ssh-key-generator:
+    image: ghcr.io/hueske-digital/sshkey-generator:latest
+    environment:
+      - SSH_HOST=backup
+      - SSH_HOSTNAME=${SSH_HOSTNAME}
+      - SSH_USER=${SSH_USER}
+      - SSH_PORT=${SSH_PORT}
+    volumes:
+      - ssh_data:/root/.ssh
+
+  backup:
+    image: garethgeorge/backrest:v1.7
+    hostname: docker
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:9898
+    environment:
+      - TZ=Europe/Berlin
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+      - XDG_CACHE_HOME=/cache
+      - TMPDIR=/tmp
+    volumes:
+      - ${APP_DATA_DIR}/data/data:/data
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${APP_DATA_DIR}/data/cache:/cache
+      - ${APP_DATA_DIR}/data/tmp:/tmp
+      - ssh_data:/root/.ssh
+      - /var/lib/docker/volumes:/mnt/volumes:ro
+      - /home:/mnt/home:ro
+      - /root:/mnt/root:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - tipi_main_network
+    labels:
+      traefik.enable: false
+      runtipi.managed: true
+
+volumes:
+  ssh_data:
