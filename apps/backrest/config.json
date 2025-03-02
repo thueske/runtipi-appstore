@@ -7,7 +7,7 @@
   "port": 9898,
   "categories": ["security", "data", "automation", "utilities"],
   "description": "Backrest is a web-accessible backup solution built on top of restic. Backrest provides a WebUI which wraps the restic CLI and makes it easy to create repos, browse snapshots, and restore files. Additionally, Backrest can run in the background and take an opinionated approach to scheduling snapshots and orchestrating repo health operations.\n\n",
-  "tipi_version": 2,
+  "tipi_version": 3,
   "version": "v1.7-latest",
   "source": "https://github.com/garethgeorge/backrest",
   "exposable": false,
@@ -47,5 +47,5 @@
     }
   ],
   "created_at": 1724134338800,
-  "updated_at": 1740918028000
+  "updated_at": 1740918028001
 }
