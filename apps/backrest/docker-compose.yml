@@ -22,7 +22,7 @@ services:
       - XDG_CACHE_HOME=/cache
       - TMPDIR=/tmp
     volumes:
-      - $PWD/bin:/scripts:ro
+      - /root/runtipi/apps/backrest/bin/bin:/scripts:ro
       - ${APP_DATA_DIR}/data/data:/data
       - ${APP_DATA_DIR}/data/config:/config
       - ${APP_DATA_DIR}/data/cache:/cache
