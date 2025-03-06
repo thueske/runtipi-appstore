@@ -34,6 +34,9 @@ jobs:
           git checkout master
           git rebase upstream/master
 
+      - name: Exclude workflow changes
+        run: git checkout origin/master -- .github/workflows
+
       - name: Änderungen pushen
         run: |
           git push origin master --force-with-lease
