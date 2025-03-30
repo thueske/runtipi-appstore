@@ -33,19 +33,22 @@ jobs:
         run: |
           git checkout master
           if ! git rebase upstream/master; then
-            echo "Konflikt in sync-fork.yml erkannt – verwende die eigene Version"
-            git checkout --ours .github/workflows/sync-fork.yml
-            git add .github/workflows/sync-fork.yml
+            echo "Konflikte erkannt. Auflösen..."
+            # Eigene Version von sync-fork.yml beibehalten
+            git checkout --ours .github/workflows/sync-fork.yml || true
+            # Für renovate.yml Version aus origin/master übernehmen
+            git checkout origin/master -- .github/workflows/renovate.yml || true
+            git add .github/workflows/sync-fork.yml .github/workflows/renovate.yml
             git rebase --continue
           fi
 
       - name: Exclude workflow changes (ohne sync-fork.yml)
         run: |
-          # Alle .yml-Dateien im workflows-Ordner zurücksetzen, außer sync-fork.yml
+          # Alle .yml-Dateien im workflows-Ordner außer sync-fork.yml auf den Stand von origin/master zurücksetzen
           for file in $(git ls-tree -r --name-only origin/master .github/workflows | grep -v 'sync-fork.yml'); do
             git checkout origin/master -- "$file"
           done
-          # Falls es nichts zu committen gibt, soll der Schritt nicht fehlschlagen
+          # Wenn es nichts zu committen gibt, soll dieser Schritt nicht fehlschlagen
           git commit --amend --no-edit || true
 
       - name: Änderungen pushen
