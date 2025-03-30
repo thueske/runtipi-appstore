@@ -32,12 +32,21 @@ jobs:
       - name: Rebase von upstream/master
         run: |
           git checkout master
-          git rebase upstream/master
+          if ! git rebase upstream/master; then
+            echo "Konflikt in sync-fork.yml erkannt – verwende die eigene Version"
+            git checkout --ours .github/workflows/sync-fork.yml
+            git add .github/workflows/sync-fork.yml
+            git rebase --continue
+          fi
 
-      - name: Exclude workflow changes
+      - name: Exclude workflow changes (ohne sync-fork.yml)
         run: |
-          git checkout origin/master -- .github/workflows
-          git commit --amend --no-edit
+          # Alle .yml-Dateien im workflows-Ordner zurücksetzen, außer sync-fork.yml
+          for file in $(git ls-tree -r --name-only origin/master .github/workflows | grep -v 'sync-fork.yml'); do
+            git checkout origin/master -- "$file"
+          done
+          # Falls es nichts zu committen gibt, soll der Schritt nicht fehlschlagen
+          git commit --amend --no-edit || true
 
       - name: Änderungen pushen
         run: |
